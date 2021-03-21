@@ -2,6 +2,8 @@
 
 Simple timer to measure time spent on task. Made using Vue + Vuetify.
 
+[Demo](https://pabratte.github.io/vue-timer)
+
 ## Project setup
 ```
 npm install
