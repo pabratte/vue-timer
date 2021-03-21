@@ -1,5 +1,7 @@
 # vue-timer
 
+Simple timer to measure time spent on task. Made using Vue + Vuetify.
+
 ## Project setup
 ```
 npm install
