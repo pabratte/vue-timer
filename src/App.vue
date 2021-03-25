@@ -93,7 +93,7 @@ export default {
   vuetify: new Vuetify(),
   data: function(){
     return{
-      timer: new Timer(),
+      timer: undefined,
       timeStr: "00:00:00",
       interval: null,
       showResetDialog: false
@@ -102,15 +102,9 @@ export default {
   methods: {
     onButton: function(){
       if(this.timer.isRunning){
-        this.timer.stop();
-        clearInterval(this.interval)
-        this.interval = null
+        this.stopTimer()
       }else{
-        this.timer.start();
-        let self = this;
-        this.interval = setInterval(function(){
-          self.updateTime()
-        }, 1000)
+        this.startTimer()
       }
     },
     updateTime: function(){
@@ -123,17 +117,35 @@ export default {
       this.timeStr = `${hourStr}:${minStr}:${secStr}`
       document.title=this.timeStr
     },
-    timerStop: function(){
-      this.timer.stop()
-    }, 
+    stopTimer: function(){
+      this.timer.stop();
+      clearInterval(this.interval)
+      this.interval = null
+      localStorage.startTime = this.timer.getTime()
+    },
+    startTimer: function(){
+      this.timer.start();
+      let self = this;
+      this.interval = setInterval(function(){
+          self.updateTime()
+      }, 1000)
+    },
     onReset: function(){
       this.timer.reset()
-      this.showResetDialog=false
+      this.showResetDialog = false
+      localStorage.startTime = 0
       this.updateTime()
     }
   },
   created: function(){
-    
+    let startTime = 0
+    console.log("on created()")
+    if (localStorage.startTime) {
+      startTime = parseInt(localStorage.startTime)
+      console.log(`localTorage time is ${startTime}`)
+    }
+    this.timer = new Timer(startTime)
+    this.updateTime()
   },
   computed: {
     buttonText: function(){

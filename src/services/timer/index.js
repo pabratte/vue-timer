@@ -1,13 +1,13 @@
 // based on the answer from https://stackoverflow.com/a/57981688
 export default class Timer {
-    constructor () {
+    constructor (startTime) {
       this.isRunning = false;
       this.startTime = 0;
-      this.overallTime = 0;
+      this.overallTime = startTime;
     }
   
     _getTimeElapsedSinceLastStart () {
-      if (!this.startTime) {
+      if (!this.isRunning) {
         return 0;
       }
     
@@ -29,9 +29,8 @@ export default class Timer {
         return console.error('Timer is already stopped');
       }
   
-      this.isRunning = false;
-  
       this.overallTime = this.overallTime + this._getTimeElapsedSinceLastStart();
+      this.isRunning = false;
     }
   
     reset () {
@@ -46,9 +45,9 @@ export default class Timer {
     }
   
     getTime () {
-      if (!this.startTime) {
+      /*if (!this.startTime) {
         return 0;
-      }
+      }*/
   
       if (this.isRunning) {
         return this.overallTime + this._getTimeElapsedSinceLastStart();
