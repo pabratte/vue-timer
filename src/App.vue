@@ -135,9 +135,13 @@ export default {
       this.showResetDialog = false
       localStorage.startTime = 0
       this.updateTime()
+    },
+    onBeforeUnload: function(){
+      this.timer.stop()
     }
   },
   created: function(){
+    window.addEventListener('beforeunload', this.onBeforeUnload)
     let startTime = 0
     console.log("on created()")
     if (localStorage.startTime) {
